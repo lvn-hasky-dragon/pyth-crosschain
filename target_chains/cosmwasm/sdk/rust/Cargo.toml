@@ -16,6 +16,6 @@ osmosis=[]
 
 [dependencies]
 pyth-sdk = "0.7.0"
-cosmwasm-std = { version = "2.0.2" }
+cosmwasm-std = { git = "https://github.com/Levana-Protocol/cosmwasm.git", rev = "6e1fbb12982d02f8ff3f1a291de60d423143c7f1" }
 cosmwasm-schema = "2.0.2"
 thiserror = "1.0.20"

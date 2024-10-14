@@ -1,6 +1,8 @@
 pub mod error;
 pub mod testing;
 
+use cosmwasm_schema::QueryResponses;
+use cosmwasm_std::to_json_binary;
 pub use pyth_sdk::{
     Price,
     PriceFeed,
@@ -8,12 +10,10 @@ pub use pyth_sdk::{
     UnixTimestamp,
 };
 use {
-    cosmwasm_schema::{
-        cw_serde,
-        QueryResponses,
-    },
+    cosmwasm_schema::
+        cw_serde
+    ,
     cosmwasm_std::{
-        to_binary,
         Addr,
         Binary,
         Coin,
@@ -59,7 +59,7 @@ pub fn query_price_feed(
 ) -> StdResult<PriceFeedResponse> {
     let price_feed_response = querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
         contract_addr: contract_addr.into_string(),
-        msg:           to_binary(&QueryMsg::PriceFeed { id })?,
+        msg:           to_json_binary(&QueryMsg::PriceFeed { id })?,
     }))?;
     Ok(price_feed_response)
 }
@@ -73,7 +73,7 @@ pub fn get_update_fee(
 ) -> StdResult<Coin> {
     querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
         contract_addr: contract_addr.into_string(),
-        msg:           to_binary(&QueryMsg::GetUpdateFee {
+        msg:           to_json_binary(&QueryMsg::GetUpdateFee {
             vaas: price_update_vaas.to_vec(),
         })?,
     }))
@@ -90,7 +90,7 @@ pub fn get_update_fee_for_denom(
 ) -> StdResult<Coin> {
     querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
         contract_addr: contract_addr.into_string(),
-        msg:           to_binary(&QueryMsg::GetUpdateFeeForDenom {
+        msg:           to_json_binary(&QueryMsg::GetUpdateFeeForDenom {
             vaas: price_update_vaas.to_vec(),
             denom,
         })?,
@@ -101,6 +101,6 @@ pub fn get_update_fee_for_denom(
 pub fn get_valid_time_period(querier: &QuerierWrapper, contract_addr: Addr) -> StdResult<Duration> {
     querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
         contract_addr: contract_addr.into_string(),
-        msg:           to_binary(&QueryMsg::GetValidTimePeriod)?,
+        msg:           to_json_binary(&QueryMsg::GetValidTimePeriod)?,
     }))
 }
